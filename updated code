@@ -1,0 +1,173 @@
+import math
+
+# Function to add two numbers
+def add(x, y):
+    return x + y
+
+# Function to subtract two numbers
+def subtract(x, y):
+    return x - y
+
+# Function to multiply two numbers
+def multiply(x, y):
+    return x * y
+
+# Function to divide two numbers, handle division by zero
+def divide(x, y):
+    try:
+        return x / y
+    except ZeroDivisionError:
+        return "Error: Division by zero"
+
+# Function to calculate modulus of two numbers
+def modulus(x, y):
+    return x % y
+
+# Function to exponentiate two numbers
+def exponentiate(x, y):
+    return x ** y
+
+# Function to calculate square root of a number
+def square_root(x):
+    return math.sqrt(x)
+
+# Function to set memory
+def memory_store(memory_slot, value):
+    memory_slot.append(value)
+
+# Function to recall memory
+def memory_recall(memory_slot):
+    if len(memory_slot) > 0:
+        return memory_slot[-1]
+    else:
+        return "Memory is empty"
+
+# Function to clear memory
+def memory_clear(memory_slot):
+    memory_slot.clear()
+    return "Memory cleared"
+
+# Function to display main menu and get user choice
+def display_menu():
+    print("\nSelect operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    print("5. Modulus")
+    print("6. Exponentiate")
+    print("7. Square Root")
+    print("8. Memory Operations")
+    print("9. Set Decimal Precision")
+    print("0. Exit")
+
+    return input("Enter choice (0-9): ")
+
+# Main calculator function
+def calculator():
+    memory = []  # Memory slots
+    decimal_precision = 2  # Default decimal precision
+
+    print("Welcome to Enhanced Calculator!")
+
+    while True:
+        choice = display_menu()
+
+        if choice == '0':
+            print("Exiting Calculator. Goodbye!")
+            break
+
+        elif choice in ('1', '2', '3', '4', '5', '6'):
+            try:
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                continue
+
+            if choice == '1':
+                result = add(num1, num2)
+                print(f"{num1} + {num2} = {result}")
+
+            elif choice == '2':
+                result = subtract(num1, num2)
+                print(f"{num1} - {num2} = {result}")
+
+            elif choice == '3':
+                result = multiply(num1, num2)
+                print(f"{num1} * {num2} = {result}")
+
+            elif choice == '4':
+                result = divide(num1, num2)
+                print(f"{num1} / {num2} = {result}")
+
+            elif choice == '5':
+                result = modulus(num1, num2)
+                print(f"{num1} % {num2} = {result}")
+
+            elif choice == '6':
+                result = exponentiate(num1, num2)
+                print(f"{num1} ** {num2} = {result}")
+
+        elif choice == '7':
+            try:
+                num = float(input("Enter a number to calculate square root: "))
+                if num < 0:
+                    print("Error: Square root of a negative number is not defined in real numbers.")
+                else:
+                    result = square_root(num)
+                    print(f"Square root of {num} = {result}")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                continue
+
+        elif choice == '8':
+            print("\nMemory Operations:")
+            print("1. Memory Store (M+)")
+            print("2. Memory Recall (MR)")
+            print("3. Memory Clear (MC)")
+
+            memory_choice = input("Enter memory operation choice (1/2/3): ")
+
+            if memory_choice == '1':
+                memory_store(memory, result)
+                print(f"Result {result} stored in memory.")
+
+            elif memory_choice == '2':
+                mem_result = memory_recall(memory)
+                print(f"Memory Recall: {mem_result}")
+
+            elif memory_choice == '3':
+                print(memory_clear(memory))
+
+            else:
+                print("Invalid memory operation choice.")
+
+        elif choice == '9':
+            try:
+                decimal_precision = int(input("Enter decimal precision for results (0-9): "))
+                if decimal_precision < 0 or decimal_precision > 9:
+                    print("Invalid precision. Setting default precision (2).")
+                    decimal_precision = 2
+                else:
+                    print(f"Decimal precision set to {decimal_precision}.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                continue
+
+        else:
+            print("Invalid Input. Please choose a valid option (0-9).")
+
+        # Display result with specified decimal precision
+        if isinstance(result, float):
+            formatted_result = f"{result:.{decimal_precision}f}"
+            print(f"Result: {formatted_result}")
+
+        # Additional functionality to ask for another calculation
+        next_calculation = input("\nDo you want to perform another calculation? (yes/no): ").lower()
+        if next_calculation != "yes":
+            print("Exiting Calculator. Goodbye!")
+            break
+
+# Run the calculator
+calculator()
